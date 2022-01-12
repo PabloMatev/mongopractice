@@ -13,7 +13,9 @@ const User = require("../../models/User");
 
 router.get("/", auth, async (req, res) => {
   try {
+    console.log(req.user);
     const user = await User.findById(req.user.id).select("-password");
+
     res.json(user);
   } catch (err) {
     console.log(err.message);
@@ -25,7 +27,7 @@ router.post(
   "/",
   [
     check("email", "Enter a valid email. ").isEmail(),
-    check("password", "Enter a password of minimum 6 characters. ").exists(),
+    check("password", "Password is required ").exists(),
   ],
   async (req, res) => {
     const errors = validationResult(req);
